@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tsuki v5.2.1</title>
+<style>
+ * { box-sizing: border-box; max-width: 100%; }
+ body { font-family: sans-serif; margin: 0; padding: 15px; background: #0d0e15; color: #e2e8f0; overflow-x: hidden; transition: background 0.5s; }
+ .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+ h1 { color: #00f0ff; margin: 0; font-size: 20px; }
+ .doc-btn { padding: 8px 16px; background: #1e1e2f; color: #00f0ff; border: 1px solid #00f0ff; border-radius: 6px; cursor: pointer; font-weight: bold; }
+ .main-container { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+ .panel { background: #1a1c2e; border: 1px solid #2d3154; border-radius: 12px; padding: 15px; width: 100%; }
+ textarea { width: 100%; height: 420px; font-family: monospace; font-size: 14px; padding: 12px; background: #05070f; color: #39ff14; border: 1px solid #2d3154; border-radius: 8px; white-space: pre-wrap; word-break: break-all; }
+ #output { width: 100%; height: 260px; font-family: monospace; background: #000; color: #fff; padding: 12px; overflow-y: auto; border-radius: 8px; font-size: 16px; white-space: pre-wrap; word-break: break-all; margin-top: 15px; border: 1px solid #2d3154; transition: transform 0.1s, background 0.3s; }
+ 
+ @keyframes shake { 0% { transform: translate(2px, 2px); } 20% { transform: translate(-4px, -1px); } 40% { transform: translate(2px, -2px); } 60% { transform: translate(-4px, 2px); } 80% { transform: translate(-2px, -2px); } 100% { transform: translate(2px, -3px); } }
+ @keyframes flash { 0% { background: #fff; } 100% { background: #000; } }
+ .run-btn { width: 100%; padding: 14px; font-size: 16px; background: #007aff; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+ .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 1000; padding: 15px; flex-direction: column; justify-content: center; align-items: center; }
+ .modal-body { background: #1a1c2e; border: 2px solid #00f0ff; border-radius: 16px; width: 100%; max-width: 700px; max-height: 90vh; padding: 20px; position: relative; overflow-y: auto; }
+ .close { position: absolute; top: 10px; right: 15px; color: #ff453a; font-size: 28px; cursor: pointer; }
+ .tab-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; margin-bottom: 10px; }
+ .tab-btn { background: #2d3154; color: #aeaeae; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+ .tab-btn.active { background: #00f0ff; color: #1c1c1e; }
+ .doc-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+ .doc-table th, .doc-table td { border: 1px solid #2d3154; padding: 8px; text-align: left; word-wrap: break-word; }
+ .doc-table th:nth-child(1) { width: 45%; }
+ .doc-table th:nth-child(2) { width: 55%; }
+ .doc-table th { background: #2d3154; color: #00f0ff; }
+ .hidden { display: none; }
+
+ .doc-text { line-height: 1.6; color: #e2e8f0; font-size: 14px; }
+ .doc-text h4 { color: #00f0ff; margin-top: 18px; margin-bottom: 5px; font-size: 15px; border-left: 3px solid #00f0ff; padding-left: 8px; }
+ .doc-text code { background: #05070f; color: #39ff14; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 13px; }
+ .doc-text pre { background: #05070f; color: #39ff14; padding: 10px; border-radius: 6px; font-family: monospace; overflow-x: auto; font-size: 13px; border: 1px solid #2d3154; margin: 5px 0; }
+</style>
+</head>
+<body>
+<div class="header">
+ <h1>⚡ Tsuki v5.2.1</h1>
+ <button class="doc-btn" onclick="openDoc()">📖 フルコマンド大図鑑・マニュアル</button>
+</div>
+<div class="main-container">
+ <div class="panel">
+  <textarea id="tsukiCode">=== Tsuki v5.2.1 サンプル ===
+# 自作の「仕組み」を登録する（全角スペースも使えます）
+仕組みの登録 安全確認(数値)
+ 結果 = 素数判定(数値)
+仕組みの終わり 結果
+
+画面を消す
+画面を染める = "闇"
+文字の色 = "黄"
+表示する ⚡ Aegisメインフレームへようこそ… ⚡
+
+文字の色 = "白"
+入力を待つ 周波数 ("現在のシステム周波数を入力せよ（数値を入力）:")
+
+# 登録した仕組みを呼び出す
+もし 安全確認(周波数) == 1 なら
+ 文字の色 = "赤"
+ 表示する ［警告］入力された周波数［[周波数]］は【危険数値】である！
+ 表示する カーネル割込みが共鳴を始めている…！！
+ まつ(1.5秒)
+ 効果音(魔王)
+ 画面エフェクト発動
+ 画面を染める = "炎"
+ 文字の色 = "黄"
+ 表示する 🔥 内部システム・素数爆発（プライム・バースト）が作動した！！ 🔥
+違えば
+ 文字の色 = "青"
+ 表示する 入力された周波数［[周波数]］は安定している。
+ 表示する システムロードは厳かに進行します…
+ まつ(1秒)
+ 効果音(回復)
+ 表示する ✨ 防壁（ファイアウォール）が修復されました。 ✨
+もし終わり
+
+文字の色 = "白"
+表示する 処理を終了する。</textarea>
+  <button class="run-btn" style="margin-top:10px;" onclick="runTsuki()">▶ プログラムを実行する</button>
+ </div>
+ <div class="panel">
+  <div id="output">ここに結果が表示されます</div>
+ </div>
+</div>
+
+<div id="docModal" class="modal">
+ <div class="modal-body">
+  <span class="close" onclick="closeDoc()">&times;</span>
+  <h3 style="color:#00f0ff; margin:0;">⚡ Tsuki v5.2.1 フルコマンド大図鑑</h3>
+  
+  <div class="tab-container">
+   <button class="tab-btn active" id="tab-tutorial" onclick="switchDoc('tutorial')">🔰 ゼロから始めるシステム開発</button>
+   <button class="tab-btn" id="tab-a" onclick="switchDoc('a')">A. UI演出・入出力</button>
+   <button class="tab-btn" id="tab-b" onclick="switchDoc('b')">B. 袋・仕組みの登録</button>
+   <button class="tab-btn" id="tab-c" onclick="switchDoc('c')">C. 計算・ループ・数論モジュール</button>
+  </div>
+
+  <div id="doc-tutorial" class="doc-text">
+   <p>Tsuki v5.2.1へようこそ！この言語は、日本語を使って強力な演出や高度な数学計算を簡単に行えるスクリプト言語です。インデントや区切りには<b>全角スペース</b>も自由に使えます。</p>
+   
+   <h4>Step 1: 画面に文字を出す</h4>
+   <pre>表示する システムにアクセス中…</pre>
+
+   <h4>Step 2: 変数（データ領域）を使う</h4>
+   <p>文字や計算結果は、名前をつけた「領域（変数）」に保存できます。表示するときは<code>[変数名]</code>と囲むことで、中身を埋め込めます。</p>
+   <pre>出力 = 250
+表示する 現在のシステム出力は [出力] です！</pre>
+
+   <h4>Step 3: 演出で雰囲気を出す</h4>
+   <pre>画面を染める = "闇"
+文字の色 = "赤"
+効果音(攻撃)
+画面を揺らす
+表示する クリティカルエラー発生！！</pre>
+
+   <h4>Step 4: 条件によって処理を変える</h4>
+   <pre>入力を待つ 応答コード ("1から6の数字を入れてね")
+もし 応答コード == 6 なら
+ 表示する 通信成功！
+違えば
+ 表示する 応答タイムアウト。
+もし終わり</pre>
+  </div>
+
+  <table id="doc-a" class="doc-table hidden">
+   <tr><th>書き方</th><th>意味と使い方</th></tr>
+   <tr><td><b>表示する 〇〇</b></td><td>画面に文字を出します。変数の中身は `[変数名]` で埋め込めます。</td></tr>
+   <tr><td><b>入力を待つ 変数名 ("文")</b></td><td>ポップアップの入力欄を出して、入力された文字や数値を記憶します。</td></tr>
+   <tr><td><b>文字をつなぐ 変 = A と B</b></td><td>文字や変数の計算結果を1つに合体させて変数に入れます。</td></tr>
+   <tr><td><b>画面を消す</b></td><td>コンソールの文字をきれいに全消去してリセットします。</td></tr>
+   <tr><td><b>まつ(〇秒)</b></td><td>指定した秒数だけ、プログラムの実行を一時停止（ウエイト）します。</td></tr>
+   <tr><td><b>画面を揺らす</b></td><td>画面がブルブルと激しく振動する演出。</td></tr>
+   <tr><td><b>画面エフェクト発動</b></td><td>画面がピカピカとフラッシュし、その後激しく揺れる過負荷演出。</td></tr>
+   <tr><td><b>効果音(〇〇)</b></td><td>音を鳴らします。種類：攻撃 / 爆発 / 回復 / 魔王</td></tr>
+   <tr><td><b>画面を染める = "〇〇"</b></td><td>背景と文字色をガラッと変えます。種類：通常 / 闇 / 炎</td></tr>
+   <tr><td><b>文字の色 = "〇〇"</b></td><td>文字の色を部分的に変えます。種類：白 / 赤 / 青 / 緑 / 黄</td></tr>
+  </table>
+
+  <table id="doc-b" class="doc-table hidden">
+   <tr><th>書き方</th><th>意味と使い方</th></tr>
+   <tr><td><b>変 = 袋(A, B...)</b></td><td>たくさんのデータ（数字や文字）をまとめて入れておける「袋」を作ります。</td></tr>
+   <tr><td><b>変 = 袋に追記(袋名, 値)</b></td><td>作った「袋」の最後に、新しいデータを追加します。</td></tr>
+   <tr><td><b>〇番目の袋(袋名)</b></td><td>「袋」の中から、指定した番号のデータを取り出します（1番目からスタート）。</td></tr>
+   <tr><td><b>合計(袋名) / 平均(袋名)</b></td><td>「袋」の中に入っている数字の合計や平均を自動で計算します。</td></tr>
+   <tr><td><b>最高値(袋名) / 最低値(袋名)</b></td><td>「袋」の中で、一番大きい数字と一番小さい数字を瞬時に見つけます。</td></tr>
+   <tr><td><b>仕組みの登録 名前(受け取る箱...)<br>…<br>仕組みの終わり 渡す中身</b></td><td><b>自分だけのオリジナルの処理（コマンド）を作る機能</b>です。「受け取る箱」に数字などを入れて呼び出すと中の処理が動き、最後に「渡す中身」を返してくれます。</td></tr>
+  </table>
+
+  <table id="doc-c" class="doc-table hidden">
+   <tr><th>書き方</th><th>意味と使い方</th></tr>
+   <tr><td><b>変 = ランダム(最小, 最大)</b></td><td>指定した範囲の整数（乱数）をランダムで1つ生成します。</td></tr>
+   <tr><td><b>A ** B</b></td><td>AのB乗を計算します。（例: `3 ** 2` で9になる）</td></tr>
+   <tr><td><b>素数判定(数)</b></td><td>その数が素数なら1、違えば0を返します。</td></tr>
+   <tr><td><b>最大公約数(A, B)</b></td><td>AとBの最大公約数(GCD)を返します。</td></tr>
+   <tr><td><b>最小公倍数(A, B)</b></td><td>AとBの最小公倍数(LCM)を返します。</td></tr>
+   <tr><td><b>素因数分解(数)</b></td><td>数を素因数分解し、結果をカンマ区切りの文字列として返します。</td></tr>
+   <tr><td><b>高速累乗(底, 指数, 割る数)</b></td><td>(底 の 指数乗) を 割る数 で割った余りを高速に計算します。</td></tr>
+   <tr><td><b>階乗(数) / 組合せ数(N, R)</b></td><td>階乗（N!）や、組合せの数（NCR）を計算します。</td></tr>
+   <tr><td><b>条件 の間くりかえす</b></td><td>指定した条件が正しい間、ループを回り続けます（while文）。</td></tr>
+   <tr><td><b>〇回くりかえす</b></td><td>指定回数ぴったり中の処理をループします。</td></tr>
+   <tr><td><b>くりかえし脱出</b></td><td>ループの途中で、強制的に外へ飛び出します。</td></tr>
+   <tr><td><b>変 += 値 / 変 -= 値</b></td><td>複合代入演算子。自分自身の値に直接足し引きします。</td></tr>
+   <tr><td><b>変++ / 変--</b></td><td>変数の値を1だけ増やしたり減らしたりします。</td></tr>
+   <tr><td><b>もし A かつ B なら</b></td><td>AとBの条件が両方とも正しい時だけ中身を実行します。</td></tr>
+   <tr><td><b>A - B &gt;&gt; 最低値</b></td><td>最低保証演算子。A-Bの結果が最低値未満なら、最低値にします。</td></tr>
+   <tr><td><b>〇〇%の確率で</b></td><td>確率によるランダム分岐を作ります。終わりは「もし終わり」。</td></tr>
+   <tr><td><b>切り捨て(数) / 四捨五入(数)</b></td><td>小数点の切り捨て・四捨五入処理を行います。</td></tr>
+  </table>
+ </div>
+</div>
+
+<script>
+// --- 内部エンジン (袋・仕組み 仕様) ---
+var memory = {}; var functions = {}; var audioCtx = null;
+
+function gcd(a, b) { while (b) { var t = a % b; a = b; b = t; } return a; }
+function lcm(a, b) { return (a * b) / gcd(a, b); }
+function isPrime(n) {
+  if (n <= 1) return 0; if (n <= 3) return 1; if (n % 2 === 0 || n % 3 === 0) return 0;
+  for (var i = 5; i * i <= n; i += 6) { if (n % i === 0 || n % (i + 2) === 0) return 0; }
+  return 1;
+}
+function primeFactorize(n) {
+  var factors = [];
+  while (n % 2 === 0) { factors.push(2); n /= 2; }
+  for (var i = 3; i * i <= n; i += 2) { while (n % i === 0) { factors.push(i); n /= i; } }
+  if (n > 1) factors.push(n);
+  return factors;
+}
+function powerMod(base, exp, mod) {
+  var res = 1; base = base % mod;
+  while (exp > 0) { if (exp % 2 === 1) res = (res * base) % mod; exp = Math.floor(exp / 2); base = (base * base) % mod; }
+  return res;
+}
+function factorial(n) { var res = 1; for (var i = 2; i <= n; i++) res *= i; return res; }
+function nCr(n, r) {
+  if (r < 0 || r > n) return 0; if (r === 0 || r === n) return 1;
+  if (r > n / 2) r = n - r; var res = 1; for (var i = 1; i <= r; i++) { res = res * (n - i + 1) / i; }
+  return Math.round(res);
+}
+
+function playSound(type) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination); var now = audioCtx.currentTime;
+    if (type === "攻撃") { osc.type = "sawtooth"; osc.frequency.setValueAtTime(400, now); osc.frequency.exponentialRampToValueAtTime(80, now + 0.15); gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.15); osc.start(now); osc.stop(now + 0.15); }
+    else if (type === "爆発") { osc.type = "triangle"; osc.frequency.setValueAtTime(120, now); osc.frequency.linearRampToValueAtTime(10, now + 0.5); gain.gain.setValueAtTime(0.6, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
+    else if (type === "回復") { osc.type = "sine"; osc.frequency.setValueAtTime(300, now); osc.frequency.exponentialRampToValueAtTime(900, now + 0.3); gain.gain.setValueAtTime(0.3, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.3); osc.start(now); osc.stop(now + 0.3); }
+    else if (type === "魔王") { osc.type = "sawtooth"; osc.frequency.setValueAtTime(90, now); osc.frequency.setValueAtTime(70, now + 0.15); osc.frequency.setValueAtTime(50, now + 0.3); gain.gain.setValueAtTime(0.4, now); gain.gain.linearRampToValueAtTime(0.01, now + 0.5); osc.start(now); osc.stop(now + 0.5); }
+  } catch(e){}
+}
+
+function openDoc() { document.getElementById('docModal').style.display = 'flex'; }
+function closeDoc() { document.getElementById('docModal').style.display = 'none'; }
+
+function switchDoc(name) {
+  var tables = document.querySelectorAll('.doc-table'); for(var i=0; i<tables.length; i++) tables[i].classList.add('hidden');
+  var txts = document.querySelectorAll('.doc-text'); for(var i=0; i<txts.length; i++) txts[i].classList.add('hidden');
+  var buttons = document.querySelectorAll('.tab-btn'); for(var i=0; i<buttons.length; i++) buttons[i].classList.remove('active');
+  
+  if(name === 'tutorial') {
+    document.getElementById('doc-tutorial').classList.remove('hidden');
+  } else {
+    document.getElementById('doc-' + name).classList.remove('hidden');
+  }
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+function parseCondition(condStr) {
+  if (condStr.includes(" かつ ")) { var parts = condStr.split(" かつ "); return parseSingleCondition(parts[0]) && parseSingleCondition(parts[1]); }
+  if (condStr.includes(" または ")) { var parts = condStr.split(" または "); return parseSingleCondition(parts[0]) || parseSingleCondition(parts[1]); }
+  return parseSingleCondition(condStr);
+}
+
+function parseSingleCondition(cond) {
+  cond = cond.trim(); var ops = ["==", ">=", "<=", ">", "<", " が "], op = "";
+  for (var o=0; o<ops.length; o++) { if (cond.includes(ops[o])) { op = ops[o]; break; } }
+  if (op !== "") {
+    var p = cond.split(op), l = parseExpression(p[0]), r = parseExpression(p[1]);
+    if (op === "==" || op === " が ") return (l == r); if (op === ">=") return (l >= r); if (op === "<=") return (l <= r); if (op === ">") return (l > r); if (op === "<") return (l < r);
+  }
+  var val = parseExpression(cond);
+  return (val && val !== "0" && val !== 0);
+}
+
+function parseExpression(expr) {
+  expr = expr.trim(); if (expr === "") return "";
+  if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) return expr.slice(1, -1);
+  if (expr.includes('>>')) { var parts = expr.split('>>'); return Math.max(parseExpression(parts[0]), parseExpression(parts[1])); }
+  
+  var scrollMatch = expr.match(/^(\d+)番目の袋\((.+)\)$/);
+  if (scrollMatch) { var index = parseInt(scrollMatch[1]) - 1; var arr = memory[scrollMatch[2].trim()]; return (Array.isArray(arr) && arr[index] !== undefined) ? arr[index] : ""; }
+  
+  if (expr.indexOf("最大公約数(") === 0 && expr.endsWith(")")) { var p = expr.substring(6, expr.length-1).split(","); return gcd(parseExpression(p[0]), parseExpression(p[1])); }
+  if (expr.indexOf("最小公倍数(") === 0 && expr.endsWith(")")) { var p = expr.substring(5, expr.length-1).split(","); return lcm(parseExpression(p[0]), parseExpression(p[1])); }
+  if (expr.indexOf("素数判定(") === 0 && expr.endsWith(")")) { return isPrime(parseExpression(expr.substring(5, expr.length-1))); }
+  if (expr.indexOf("高速累乗(") === 0 && expr.endsWith(")")) { var p = expr.substring(5, expr.length-1).split(","); return powerMod(parseExpression(p[0]), parseExpression(p[1]), parseExpression(p[2])); }
+  if (expr.indexOf("階乗(") === 0 && expr.endsWith(")")) { return factorial(parseExpression(expr.substring(3, expr.length-1))); }
+  if (expr.indexOf("組合せ数(") === 0 && expr.endsWith(")")) { var p = expr.substring(5, expr.length-1).split(","); return nCr(parseExpression(p[0]), parseExpression(p[1])); }
+  if (expr.indexOf("素因数分解(") === 0 && expr.endsWith(")")) { return primeFactorize(parseExpression(expr.substring(6, expr.length - 1))).join(", "); }
+  if (expr.indexOf("切り捨て(") === 0 && expr.endsWith(")")) { return Math.floor(parseFloat(parseExpression(expr.substring(4, expr.length-1)))); }
+  if (expr.indexOf("四捨五入(") === 0 && expr.endsWith(")")) { return Math.round(parseFloat(parseExpression(expr.substring(5, expr.length-1)))); }
+  if (expr.indexOf("ランダム(") === 0 && expr.endsWith(")")) { var p = expr.substring(5, expr.length-1).split(","); var min=parseInt(parseExpression(p[0])), max=parseInt(parseExpression(p[1])); return Math.floor(Math.random()*(max-min+1))+min; }
+  
+  if (expr.indexOf("合計(") === 0 && expr.endsWith(")")) { var target = memory[expr.substring(3, expr.length-1).trim()]; return Array.isArray(target) ? target.reduce((a,b)=>a+Number(b), 0) : 0; }
+  if (expr.indexOf("平均(") === 0 && expr.endsWith(")")) { var target = memory[expr.substring(4, expr.length-1).trim()]; return Array.isArray(target) && target.length > 0 ? (target.reduce((a,b)=>a+Number(b), 0) / target.length) : 0; }
+  if (expr.indexOf("最高値(") === 0 && expr.endsWith(")")) { var target = memory[expr.substring(4, expr.length-1).trim()]; return Array.isArray(target) ? Math.max(...target.map(Number)) : 0; }
+  if (expr.indexOf("最低値(") === 0 && expr.endsWith(")")) { var target = memory[expr.substring(4, expr.length-1).trim()]; return Array.isArray(target) ? Math.min(...target.map(Number)) : 0; }
+  
+  for (var fName in functions) { if (expr.indexOf(fName + "(") === 0 && expr.endsWith(")")) { var args = expr.substring(fName.length + 1, expr.length - 1).split(",").map(a => parseExpression(a)); return runMagicBlock(fName, args); } }
+  
+  expr = expr.replace(/[a-zA-Z0-9_ぁ-んァ-ヶ一-龠々]+/g, function(match) {
+    if (memory[match] !== undefined && !Array.isArray(memory[match])) { return memory[match]; } return match;
+  });
+  try {
+    while (expr.includes('**')) { var prev = expr; expr = expr.replace(/([0-9\.]+)\s*\*\*\s*([0-9\.]+)/g, "Math.pow($1,$2)"); if (prev === expr) break; }
+    if (/^[0-9\.\+\-\*\/\%\(\)\s,Math.pow]+$/.test(expr)) { return new Function('"use strict";return (' + expr + ')')(); } return expr;
+  } catch (e) { return expr; }
+}
+
+function runMagicBlock(fName, args) {
+  var func = functions[fName]; var backupMemory = Object.assign({}, memory);
+  for (var i = 0; i < func.args.length; i++) { memory[func.args[i]] = args[i]; }
+  var result = "";
+  for (var line of func.lines) {
+    if (line.startsWith("仕組みの終わり")) { result = parseExpression(line.substring(8).trim()); break; }
+    if (line.includes("=")) { var p = line.split("="), v = p[0].trim(), r = p[1].trim(); memory[v] = parseExpression(r); }
+  }
+  memory = backupMemory; return result;
+}
+
+var sleep = function(ms) { return new Promise(function(res) { setTimeout(res, ms); }); };
+
+async function runTsuki() {
+  var code = document.getElementById('tsukiCode').value; var out = document.getElementById('output');
+  out.innerText = ""; out.style.color = "#fff"; out.style.background = "#000"; document.body.style.background = "#0d0e15";
+  memory = {}; functions = {}; var allLines = code.split('\n'); var lines = []; var inFunc = false; var curFuncName = "";
+  
+  for (var i = 0; i < allLines.length; i++) {
+    var l = allLines[i].replace(/ /g, " ").trim(); if (l === "" || l.startsWith("#")) continue;
+    
+    if (l.indexOf("仕組みの登録 ") === 0) {
+      inFunc = true; var head = l.substring(7).trim(); curFuncName = head.substring(0, head.indexOf("(")).trim();
+      var args = head.substring(head.indexOf("(")+1, head.indexOf(")")).split(",").map(a=>a.trim());
+      functions[curFuncName] = { args: args, lines: [] }; continue;
+    }
+    if (l.startsWith("仕組みの終わり")) { functions[curFuncName].lines.push(l); inFunc = false; continue; }
+    if (inFunc) { functions[curFuncName].lines.push(l); } else { lines.push({ text: l, originalIndex: i }); }
+  }
+
+  var skipMode = false; var loopStack = [];
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i].text;
+    try {
+      if (line === "もし終わり") { skipMode = false; continue; }
+      if (line === "違えば") { skipMode = !skipMode; continue; }
+      if (line === "くりかえし終わり") {
+        if (loopStack.length > 0) {
+          var l = loopStack[loopStack.length - 1];
+          if (l.type === "count") { l.c++; if (l.c < l.m) i = l.s; else loopStack.pop(); } 
+          else if (l.type === "while") { if (parseCondition(l.cond)) i = l.s; else loopStack.pop(); }
+        } continue;
+      }
+      if (line === "くりかえし脱出") {
+        if (loopStack.length > 0) {
+          var targetStackCount = 1;
+          for (var j = i + 1; j < lines.length; j++) {
+            if (lines[j].text.endsWith("くりかえす")) targetStackCount++;
+            if (lines[j].text === "くりかえし終わり") { targetStackCount--; if (targetStackCount === 0) { i = j; loopStack.pop(); break; } }
+          }
+        } continue;
+      }
+      if (skipMode) continue;
+      
+      if (line === "画面を消す") { out.innerText = ""; }
+      else if (line === "画面を揺らす") { out.style.animation = "shake 0.1s infinite"; await sleep(300); out.style.animation = ""; }
+      else if (line === "画面エフェクト発動") { out.style.animation = "flash 0.1s 3, shake 0.05s infinite"; await sleep(600); out.style.animation = ""; }
+      else if (line.indexOf("効果音(") === 0 && line.endsWith(")")) { playSound(line.substring(4, line.length - 1).trim()); }
+      else if (line.indexOf("画面を染める = ") === 0) {
+        var theme = line.split("=")[1].replace(/['" ]/g, "");
+        if (theme === "闇") { out.style.background = "#05070f"; out.style.color = "#00f0ff"; document.body.style.background = "#020306"; }
+        else if (theme === "炎") { out.style.background = "#2c0000"; out.style.color = "#ff9f0a"; document.body.style.background = "#1a0000"; }
+        else { out.style.background = "#000000"; out.style.color = "#ffffff"; document.body.style.background = "#0d0e15"; }
+      }
+      else if (line.indexOf("文字の色 = ") === 0) {
+        var c = line.split("=")[1].replace(/['" ]/g, "");
+        if (c === "赤") out.style.color = "#ff453a"; else if (c === "緑") out.style.color = "#39ff14"; else if (c === "黄") out.style.color = "#ffd60a"; else if (c === "白") out.style.color = "#ffffff"; else if (c === "青") out.style.color = "#0a84ff";
+      }
+      else if (line.indexOf("まつ(") === 0 && line.endsWith("秒)")) { var sec = parseFloat(line.replace("まつ(","").replace("秒)","")); await sleep(sec * 1000); }
+      else if (line.indexOf("入力を待つ ") === 0) {
+        var core = line.substring(6).trim(); var fSpace = core.indexOf(" "); if (fSpace === -1) fSpace = core.length;
+        var vName = core.substring(0, fSpace).replace("[","").replace("]","").trim();
+        var msg = core.includes('"') ? core.substring(core.indexOf('"') + 1, core.lastIndexOf('"')) : "入力してください";
+        var val = prompt(msg); if (val === null) val = "0"; memory[vName] = (!isNaN(val) && val !== "") ? parseFloat(val) : val;
+      }
+      else if (line.indexOf("文字をつなぐ ") === 0) {
+        var core = line.substring(7).trim(), p = core.split("="), v = p[0].trim();
+        var r = p[1].split(" と "), v1 = parseExpression(r[0]), v2 = parseExpression(r[1]); memory[v] = String(v1) + String(v2);
+      }
+      else if (line.indexOf("表示する ") === 0) {
+        var msg = line.substring(5).trim();
+        msg = msg.replace(/\[([a-zA-Z0-9_ぁ-んァ-ヶ一-龠々]+)\]/g, function(m, k) {
+          if (memory[k] !== undefined) { return Array.isArray(memory[k]) ? memory[k].join(", ") : memory[k]; } return m;
+        });
+        out.innerText += msg + "\n"; out.scrollTop = out.scrollHeight;
+      }
+      else if (line.endsWith("++")) { var v = line.replace("++","").trim(); memory[v] = (Number(memory[v]) || 0) + 1; }
+      else if (line.endsWith("--")) { var v = line.replace("--","").trim(); memory[v] = (Number(memory[v]) || 0) - 1; }
+      else if (line.endsWith("の間くりかえす")) {
+        var cond = line.replace("の間くりかえす","").trim();
+        if (parseCondition(cond)) { loopStack.push({ s: i, type: "while", cond: cond }); } 
+        else {
+          var targetStackCount = 1;
+          for (var j = i + 1; j < lines.length; j++) {
+            if (lines[j].text.endsWith("くりかえす")) targetStackCount++;
+            if (lines[j].text === "くりかえし終わり") { targetStackCount--; if (targetStackCount === 0) { i = j; break; } }
+          }
+        }
+      }
+      else if (line.endsWith("回くりかえす")) { loopStack.push({ s: i, type: "count", m: parseExpression(line.replace("回くりかえす","")), c: 1 }); }
+      else if (line.endsWith("の確率で")) { if (Math.floor(Math.random() * 100) >= parseInt(line.replace("%の確率で", "").trim())) skipMode = true; }
+      else if (line.indexOf("もし ") === 0 && line.endsWith(" なら")) { if (!parseCondition(line.substring(3, line.length - 3))) skipMode = true; }
+      else if (line.includes("+=") || line.includes("-=") || line.includes("*=") || line.includes("/=")) {
+        var op = line.includes("+=") ? "+=" : line.includes("-=") ? "-=" : line.includes("*=") ? "*=" : "/=";
+        var p = line.split(op), v = p[0].trim(), r = p[1].trim();
+        if (op === "+=") memory[v] = (Number(memory[v]) || 0) + Number(parseExpression(r)); 
+        if (op === "-=") memory[v] = (Number(memory[v]) || 0) - Number(parseExpression(r)); 
+        if (op === "*=") memory[v] = (Number(memory[v]) || 0) * Number(parseExpression(r)); 
+        if (op === "/=") memory[v] = (Number(memory[v]) || 0) / Number(parseExpression(r));
+      }
+      else if (line.indexOf("=") >= 0) {
+        var p = line.split("="), v = p[0].trim(), r = p[1].trim();
+        if (r.indexOf("袋(") === 0 && r.endsWith(")")) { var inner = r.substring(2, r.length - 1).trim(); memory[v] = inner === "" ? [] : inner.split(",").map(x => parseExpression(x)); }
+        else if (r.indexOf("袋に追記(") === 0 && r.endsWith(")")) {
+          var inner = r.substring(5, r.length - 1).split(","); var arrName = inner[0].trim(); var val = parseExpression(inner[1]);
+          if (Array.isArray(memory[arrName])) { memory[v] = [...memory[arrName], val]; }
+        }
+        else { memory[v] = parseExpression(r); }
+      }
+    } catch (err) {
+      out.style.color = "#ff453a"; out.innerText += `\n❌ 【システムエラー】\n${lines[i].originalIndex + 1}行目周辺: 「 ${allLines[lines[i].originalIndex]} 」\n`; return;
+    }
+  }
+}
+</script>
+</body>
+</html>
